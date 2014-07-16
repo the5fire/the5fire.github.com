@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Django-xadmin-tutorial</title>
+        <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="http://www.the5fire.com/favicon.ico"/>
+        <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
+
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="/css/ie.css"/>
+                <script src="/js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="/css/ie6.css"/><![endif]-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>
+<style>
+.circle {
+    width: 100px;
+    height: 100px;
+    background: red;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+</style>
+</head>
+
+<body id="index" class="home">
+	
+        <header id="banner" class="body">
+                <h1><a href="/">the5fire's en blog</a></h1>
+        </header> 
+<!-- /#banner -->
+	      <div class="LaunchyardDetail"><p><a href="/"></a><img class="circle" src="http://www.the5fire.com/favicon.ico" width="100" height="100" alt="LaunchYard logo"><br/>Life is short, We need Python!<br/></p></div>
+
+<section id="content" >
+    <div class="body">
+      <article>
+        <header>
+          <h1 class="entry-title">
+            <a href="/django-xadmin-tutorial.html" rel="bookmark"
+               title="Permalink to Django-xadmin-tutorial">Django-xadmin-tutorial</a></h1>
+
+        </header>
+
+        <div class="entry-content">
+<div class="post-info">
+	<ul>
+        <li class="vcard author">
+                 by&nbsp;<a class="url fn" href="/author/the5fire.html">the5fire</a>
+        </li>
+        <li class="published" title="2014-06-28T13:32:00">
+          on&nbsp;Sat 28 June 2014
+        </li>
+
+	</ul>
+<p>Category: <a href="/tag/django-admin.html">django-admin</a><a href="/tag/django-xadmin.html">django-xadmin</a><a href="/tag/xadmin.html">xadmin</a></p>
+</div><!-- /.post-info -->          <div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>This guide assumes some basic knowledge of Django and Django's admin. The goal of the guide is to make up for the lack of xadmin document. I hope this guide will help those who are interested in xadmin but don't know where to start.</p>
+<p><em>Claim: I'm not native english speaker, so if there is any grammar mistake please help me to correct</em></p>
+</div>
+<div class="section" id="why-xadmin">
+<h2>Why xadmin</h2>
+<p><a class="reference external" href="https://github.com/sshwsfc/django-xadmin">Django-xadmin</a> is an awesome opensource project base on Django. Its slogan is <tt class="docutils literal"><span class="pre">Drop-in</span> replacement of Django admin comes with lots of goodies, fully extensible with plugin support, pretty UI based on Twitter Bootstrap.</tt> . And it did.</p>
+<p>Compare with Django's contrib admin, xadmin is beautifull and easy to customize. Django built-in admin is good, but sometimes can't meet my needs, especial for UI and dashboard.</p>
+<p>In the last two years, I have done a lot of work on the admin. I did some complex customization by read its source code. I use django admin in my work time and off hours. I also tried django-admin-bootstrap, and customize its dashboard. All customization I had done can work well. but it made me feel uncomfortable.</p>
+<p>So, when I found xadmin, I have a try, and decided to use xadmin replace django admin. It met most of my needs, and most important it compatibility with django's admin!! (Honest to say, I found xadmin and <a class="reference external" href="https://github.com/pydanny/django-admin2">djadmin2</a> at the same time. xadmin is more practical.)</p>
+<p>Source: <a class="reference external" href="https://github.com/sshwsfc/django-xadmin">https://github.com/sshwsfc/django-xadmin</a>  &amp;&amp; Website: <a class="reference external" href="http://sshwsfc.github.io/django-xadmin/">http://sshwsfc.github.io/django-xadmin/</a></p>
+<p>There are two screenshots of my <a class="reference external" href="http://the5fire.com">blog</a>'s admin:</p>
+<p>with django admin:</p>
+<img alt="" src="images/django-admin.png" />
+<p>with xadmin:</p>
+<img alt="" src="https://raw.githubusercontent.com/the5fire/django_selfblog/master/img/xadmin-screen.png" />
+</div>
+<div class="section" id="enable-xadmin">
+<h2>Enable xadmin</h2>
+<p>Just like django admin, it's easily enabled xadmin.</p>
+<ul class="simple">
+<li>First of all, install django-xadmin by <tt class="docutils literal">pip install <span class="pre">django-xadmin</span></tt>.</li>
+</ul>
+<pre class="code literal-block">
+$ pip install django-xadmin
+Downloading/unpacking django-xadmin
+  Downloading django-xadmin-0.5.0.tar.gz (1.0MB): 1.0MB downloaded
+  Running setup.py egg_info for package django-xadmin
+  ....
+Successfully installed django-xadmin django-crispy-forms
+Cleaning up...
+</pre>
+<ul class="simple">
+<li>Second, add <tt class="docutils literal">xadmin</tt> and <tt class="docutils literal">cripsy_forms</tt> to your <tt class="docutils literal">INSTALLED_APPS</tt>.</li>
+</ul>
+<pre class="code python literal-block">
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">'django.contrib.auth'</span><span class="p">,</span>
+    <span class="s">'django.contrib.contenttypes'</span><span class="p">,</span>
+    <span class="s">'django.contrib.sessions'</span><span class="p">,</span>
+    <span class="s">'django.contrib.sites'</span><span class="p">,</span>
+    <span class="s">'django.contrib.messages'</span><span class="p">,</span>
+    <span class="s">'django.contrib.staticfiles'</span><span class="p">,</span>
+    <span class="c"># 'django.contrib.admin',</span>
+    <span class="s">'django_xmlrpc'</span><span class="p">,</span>
+
+    <span class="s">'xadmin'</span><span class="p">,</span>
+    <span class="s">'crispy_forms'</span><span class="p">,</span>
+<span class="p">)</span>
+</pre>
+<ul class="simple">
+<li>Third, enable xadmin in urls.</li>
+</ul>
+<pre class="code python literal-block">
+<span class="c"># comment next two line to avoid conflict</span>
+<span class="c">#from django.contrib import admin</span>
+<span class="c">#admin.autodiscover()</span>
+
+<span class="kn">import</span> <span class="nn">xadmin</span>
+<span class="n">xadmin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">''</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^xadmin/'</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">xadmin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s">'xadmin'</span><span class="p">),</span>
+<span class="p">)</span>
+</pre>
+<p>It is very easy, isn't it.</p>
+</div>
+<div class="section" id="write-your-basic-adminx-py">
+<h2>Write your basic adminx.py</h2>
+<p>As django admin's code write to admin.py, xadmin's code should be writing to adminx.py.</p>
+<p>Xadmin support the same attribute as django admin, But xadmin provide different method. It means you can keep your attributes defination if you want to use xadmin.</p>
+<p>The project's structure with xadmin maybe look like this:</p>
+<pre class="code literal-block">
+selfblog
+├── __init__.py
+├── blog
+│&nbsp;&nbsp; ├── __init__.py
+│&nbsp;&nbsp; ├── adminx.py
+│&nbsp;&nbsp; ├── api.py
+│&nbsp;&nbsp; ├── models.py
+│&nbsp;&nbsp; ├── templates
+│&nbsp;&nbsp; │&nbsp;&nbsp; ├── index.html
+│&nbsp;&nbsp; ├── tests.py
+│&nbsp;&nbsp; └── views.py
+├── selfblog
+│&nbsp;&nbsp; ├── __init__.py
+│&nbsp;&nbsp; ├── settings.py
+│&nbsp;&nbsp; ├── urls.py
+│&nbsp;&nbsp; ├── wsgi.py
+├── manage.py
+</pre>
+<p>Let's writing sample code in models.py:</p>
+<pre class="code python literal-block">
+<span class="c"># models.py</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">created_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">update_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+</pre>
+<p>Now adminx.py:</p>
+<pre class="code python literal-block">
+<span class="kn">import</span> <span class="nn">xadmin</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Post</span>
+
+
+<span class="k">class</span> <span class="nc">PostAdmin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'title'</span><span class="p">,</span> <span class="s">'content'</span><span class="p">)</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">'content'</span><span class="p">,</span> <span class="s">'title'</span><span class="p">)</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s">'preview'</span><span class="p">,</span> <span class="s">'title'</span><span class="p">,</span> <span class="s">'created_time'</span><span class="p">)</span>
+    <span class="n">list_display_links</span> <span class="o">=</span> <span class="p">(</span><span class="s">'title'</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s">'-update_time'</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">list_per_page</span> <span class="o">=</span> <span class="mi">15</span>
+
+    <span class="k">def</span> <span class="nf">preview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">'''
+        &lt;span&gt;&lt;a href=&quot;/</span><span class="si">%s</span><span class="s">&quot; target=&quot;_blank&quot;&gt;preview&lt;/a&gt;&lt;/span&gt;
+        '''</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="n">preview</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s">'Operations'</span>
+    <span class="n">preview</span><span class="o">.</span><span class="n">allow_tags</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="c"># fields above just like django admin</span>
+
+<span class="n">xadmin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Post</span><span class="p">,</span> <span class="n">PostAdmin</span><span class="p">)</span>
+</pre>
+<p>Until now, it seems like that we are writing django admin code, but let's take a look at what we have get.</p>
+<p>Add the <tt class="docutils literal">blog</tt> app to your <tt class="docutils literal">INSTALLED_APPS</tt>, then <tt class="docutils literal">python manage.py syncdb</tt> and create an super user.</p>
+<p>Now, run our project:  <tt class="docutils literal">python manage.py runserver</tt>, visit: <a class="reference external" href="http://localhost:8000/xadmin/">http://localhost:8000/xadmin/</a></p>
+<img alt="" src="images/blog-xadmin.png" />
+</div>
+<div class="section" id="overriding-predefined-xadmin-methods">
+<h2>Overriding predefined xadmin methods</h2>
+<p>Django-xadmin offers different method. As for django admin, it offers some method for example:  <tt class="docutils literal">save_form(self, request, form, change)</tt>, <tt class="docutils literal">save_model(self, request, obj, form, change)</tt>, etc. Xadmin offers the similar method, I list them below, and add some comments:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><tt class="docutils literal">save_models(self)</tt>:</dt>
+<dd><p class="first">Just provide the <tt class="docutils literal">self</tt> param, you can get <em>request</em> and <em>obj</em> from <tt class="docutils literal">self.request</tt> and <tt class="docutils literal">self.new_obj</tt>.
+There are a list attributes we can get from the <tt class="docutils literal">self</tt> object:</p>
+<ul class="simple">
+<li>request</li>
+<li>new_obj -- the new form data need to save.</li>
+<li>org_obj -- original data of this model instance.</li>
+<li>form_obj</li>
+</ul>
+<p class="last">You can do some custom save operation by overriding this method.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><tt class="docutils literal">get(self, request, *args, **kwargs)</tt>:</dt>
+<dd><p class="first last">Django view for the model instances change list/actions page and model instance edition page. It's just like django admin's <tt class="docutils literal">change_view</tt> and <tt class="docutils literal">changelist_view</tt>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>There are many other methods, You can find them in these files: <tt class="docutils literal">xadmin.views.list.py</tt>, <tt class="docutils literal">xadmin.views.edit.py</tt>.</p>
+</div>
+<div class="section" id="how-to-view-the-history-of-the-model">
+<h2>How to view the history of the Model</h2>
+<p>In django admin, you can view any change history of instance. In xadmin, we need django-reversion to achieve this goal. there are four simple step to enable reversion in xadmin:</p>
+<blockquote>
+<ul>
+<li><p class="first"><tt class="docutils literal">pip install <span class="pre">django-reversion</span></tt></p>
+</li>
+<li><p class="first">Add <tt class="docutils literal">reversoin</tt> to <tt class="docutils literal">INSTALLED_APPS</tt> and enable it in urls:</p>
+<pre class="literal-block">
+from xadmin.plugins import xversion
+xversion.register_models()
+</pre>
+</li>
+<li><p class="first">define <tt class="docutils literal">reversion_enable = True</tt> in your <tt class="docutils literal">FooAdmin(object)</tt>:</p>
+<pre class="literal-block">
+class FooAdmin(object):
+    reversion_enable = True
+</pre>
+</li>
+<li><p class="first">At last, syncdb: <tt class="docutils literal">python manage.py syncdb</tt></p>
+</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="to-be-continued">
+<h2>To be continued</h2>
+</div>
+
+        </div><!-- /.entry-content -->
+        <div class="comments">
+
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+            var disqus_identifier = "django-xadmin-tutorial.html";
+            (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://enthe5fire.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+          </script>
+        </div>
+
+      </article>
+    </div>
+</section>
+        <section id="extras" >
+       
+        
+        </section><!-- /#extras -->
+	
+        <footer id="contentinfo" >
+                <address id="about" class="vcard ">
+                Proudly powered by <a href="http://getpelican.com/" target="_blank">Pelican</a>, which takes
+                great advantage of <a href="http://python.org" target="_blank">Python</a>. &copy; <a class="url fn" href="http://launchyard.com">LaunchYard</a>
+		
+                </address><!-- /#about -->
+		
+
+                
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'enthe5fire';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
